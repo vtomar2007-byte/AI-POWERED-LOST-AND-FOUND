@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered Lost and Found</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white min-h-screen">
+
+<div id="app" class="min-h-screen flex items-center justify-center px-6">
+
+  <!-- LOGIN PAGE: left mein hero, right mein login card -->
+  <div id="auth-box" class="w-full max-w-5xl grid md:grid-cols-2 gap-12 items-center">
+
+    <div data-aos="fade-right">
+      <p class="text-amber-400 tracking-widest text-sm mb-3">PRIVACY-FIRST LOST &amp; FOUND</p>
+      <h1 class="text-5xl leading-tight">Khoyi cheez,<br>wapas apne haath mein.</h1>
+      <p class="text-slate-400 mt-5 text-lg">Mili hui cheez post karo, asli owner verify hoga, aur kaam khatam hote hi sab data delete.</p>
+      <img src="hero.svg" alt="" class="w-72 mt-8" onerror="this.style.display='none'">
+    </div>
+
+    <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-8 shadow-2xl" data-aos="fade-left">
+      <h2 class="text-2xl text-center">Welcome</h2>
+      <p class="text-center text-slate-400 mt-1 mb-6">Login karo ya naya account banao</p>
+
+      <input id="email" type="email" placeholder="Email"
+        class="w-full mb-3 p-3 rounded-lg bg-slate-800 border border-slate-700 outline-none focus:border-amber-400">
+      <input id="password" type="password" placeholder="Password (kam se kam 6 characters)"
+        class="w-full mb-4 p-3 rounded-lg bg-slate-800 border border-slate-700 outline-none focus:border-amber-400">
+
+      <button id="login-btn"
+        class="w-full mb-3 p-3 rounded-lg bg-amber-400 text-slate-900 font-semibold hover:bg-amber-300 transition">Login</button>
+      <button id="signup-btn"
+        class="w-full p-3 rounded-lg border border-amber-400 text-amber-400 hover:bg-amber-400/10 transition">Sign up</button>
+
+      <p id="auth-msg" class="text-center text-sm mt-4 text-red-400"></p>
+    </div>
+  </div>
+
+  <!-- LOGIN KE BAAD: do column ka dashboard -->
+  <div id="home-box" class="hidden w-full max-w-6xl py-10">
+
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-3xl">AI-Powered Lost &amp; Found</h2>
+        <p id="user-email" class="text-slate-400 text-sm mt-1"></p>
+      </div>
+      <button id="logout-btn"
+        class="px-5 py-2 rounded-lg border border-slate-600 hover:bg-white/10 transition">Logout</button>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+
+      <!-- LEFT: post karne ka form -->
+      <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6" data-aos="fade-up">
+        <h3 class="text-2xl mb-4">Found item post karo</h3>
+
+        <input id="item-name" type="text" placeholder="Cheez ka naam (jaise: Black wallet)"
+          class="w-full mb-3 p-3 rounded-lg bg-slate-800 border border-slate-700 outline-none focus:border-amber-400">
+
+        <textarea id="item-desc" rows="2" placeholder="Short description (rang, brand, size)"
+          class="w-full mb-3 p-3 rounded-lg bg-slate-800 border border-slate-700 outline-none focus:border-amber-400"></textarea>
+
+        <input id="item-place" type="text" placeholder="Kahan mili? (jaise: Library ke bahar)"
+          class="w-full mb-3 p-3 rounded-lg bg-slate-800 border border-slate-700 outline-none focus:border-amber-400">
+
+        <label class="text-sm text-slate-400">Kab mili?</label>
+        <input id="item-time" type="datetime-local"
+          class="w-full mb-3 mt-1 p-3 rounded-lg bg-slate-800 border border-slate-700 outline-none focus:border-amber-400">
+
+        <label class="text-sm text-slate-400">Photo (sirf webcam se, live)</label>
+<button id="cam-open" type="button"
+  class="w-full mb-3 mt-1 p-3 rounded-lg border border-amber-400 text-amber-400 hover:bg-amber-400/10 transition">📷 Webcam se photo lo</button>
+
+<div id="cam-box" class="hidden mb-3">
+  <video id="cam-video" autoplay playsinline class="w-full rounded-lg bg-black"></video>
+  <div class="flex gap-3 mt-2">
+    <button id="cam-snap" type="button"
+      class="flex-1 p-2 rounded-lg bg-amber-400 text-slate-900 font-semibold hover:bg-amber-300 transition">Photo kheencho</button>
+    <button id="cam-close" type="button"
+      class="px-4 p-2 rounded-lg border border-slate-600 hover:bg-white/10 transition">Band karo</button>
+  </div>
+</div>
+
+<input id="item-photo" type="file" class="hidden">
+<img id="photo-preview" class="hidden w-40 rounded-lg mb-3" alt="preview">
+
+        <label class="text-sm text-amber-400">🔒 Hidden detail (public nahi dikhegi, sirf owner ko verify karne ke liye)</label>
+        <textarea id="item-secret" rows="2" placeholder="Jaise: andar ek neela pen hai, ya phone ka wallpaper kya hai"
+          class="w-full mb-4 mt-1 p-3 rounded-lg bg-slate-800 border border-amber-400/40 outline-none focus:border-amber-400"></textarea>
+
+        <button id="post-btn"
+          class="w-full p-3 rounded-lg bg-amber-400 text-slate-900 font-semibold hover:bg-amber-300 transition">Post karo</button>
+        <p id="post-msg" class="text-center text-sm mt-3"></p>
+      </div>
+
+      <!-- RIGHT: claims aur items -->
+      <div>
+        <h3 class="text-2xl mb-4">Aaye hue claims</h3>
+        <div id="claims-list"></div>
+
+        <h3 class="text-2xl mt-8 mb-4">Meri claims</h3>
+        <div id="my-claims-list"></div>
+
+        <h3 class="text-2xl mt-8 mb-4">Mile hue items</h3>
+        <div id="items-list"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
